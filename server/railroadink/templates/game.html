@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Railroad Ink{% endblock %}
+
+{% block content %}
+  This is the game.
+  {% assets "clientcode" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+  {% endassets %}
+{% endblock %}

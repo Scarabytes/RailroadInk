@@ -1,0 +1,11 @@
+css-base:
+  filters: cssutils
+  output: css/css-base.min.css
+  contents:
+    - css/base.css
+
+js-base:
+  filters: rjsmin
+  output: js/js-base.min.js
+  contents:
+    - js/base.js

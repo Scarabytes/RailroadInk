@@ -1,0 +1,5 @@
+clientcode:
+  filters: rjsmin
+  output: client.min.js
+  contents:
+    - client/game.js

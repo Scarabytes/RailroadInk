@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% assets "css-base" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+  {% endassets %}
+  {% assets "js-base" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+  {% endassets %}
+
+  {% block header %}{% endblock %}
+  <title>{% block title %}{% endblock %}</title>
+  {# <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}"> #}
+</head>
+<body>
+  {% block content %}Hello World{% endblock %}
+</body>
+</html>

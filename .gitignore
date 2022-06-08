@@ -1,0 +1,15 @@
+# Python environment & compilation cache
+venv/
+*.pyc
+__pycache__/
+
+# Webassets and minified assets
+.webassets-cache/
+*.min.js
+*.min.css
+
+# Server instance directory
+instance/
+
+# IDE caches
+.idea/
