@@ -2,7 +2,7 @@ import os
 
 from flask import Blueprint, render_template
 
-from assets import add_assets
+from ..assets import add_assets
 
 
 # RailroadInk Blueprint

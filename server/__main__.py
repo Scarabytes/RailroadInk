@@ -1,6 +1,7 @@
 from . import create_app
+from . import sockets
 
 # Minimal script to make the server package executable
-# Launching via flask is preferred
+# Launching via gunicorn is preferred
 server = create_app()
-server.run()
+sockets.get_sockets(server).run(server)

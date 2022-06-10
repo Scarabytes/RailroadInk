@@ -1,18 +1,28 @@
 import os
+import logging
 
 from flask import Flask, render_template
+from werkzeug.debug import DebuggedApplication
 
-import railroadink
+from . import railroadink
 from . import assets
+from . import sockets
 
 
 def create_app(test_config=None):
     # Create Flask server
     app = Flask(__name__,
                 instance_relative_config=True)
-    print(' * Root Path:', app.root_path)
 
-    # Fill in (development) defaults
+    # Link to gunicorn's logger
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
+
+    # Log application's root path
+    app.logger.debug('Root Path: %s', app.root_path)
+
+    # Fill in (development) config defaults
     app.config.from_mapping(
         SECRET_KEY='dev',
     )
@@ -30,13 +40,30 @@ def create_app(test_config=None):
         # Load the instance config when not testing
         app.config.from_pyfile('config.py')
 
+    # Register all components
+    assets.init_assets(app)
+    sockets.init_sockets(app)
+    railroadink.init(app)
+
     # Dummy index page
     @app.route('/')
     def index():
         return render_template('base.html')
 
-    # Register all components
-    assets.init_assets(app)
-    railroadink.init(app)
+    io = sockets.get_sockets(app)
+
+    # Dummy websocket event handler
+    @io.on('message')
+    def msg(data):
+        app.logger.info('received: ' + data)
+        io.send('Hello Client.')
+
+    # Enable debugging server if needed
+    if app.debug:
+        app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
+
+        @app.route('/debug')
+        def open_debugger():
+            raise
 
     return app

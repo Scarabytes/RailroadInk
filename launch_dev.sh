@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export FLASK_APP=server
-export FLASK_ENV=development
-export FLASK_DEBUG=1
-
-./venv/bin/python -m flask run
+./venv/bin/gunicorn \
+    --reload --access-logfile - --log-level debug -e FLASK_DEBUG=1 \
+    -b 127.0.0.1:5000 -c gunicorn.conf.py

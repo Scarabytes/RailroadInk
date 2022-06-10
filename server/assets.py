@@ -13,6 +13,10 @@ def init_assets(server):
     add_assets(server, yml_path)
 
 
+def get_assets(server):
+    return server.jinja_env.assets_environment
+
+
 def add_assets(server, file, prefix=None):
     # Load bundles from the given file
     bundles = YAMLLoader(file).load_bundles()
@@ -24,4 +28,4 @@ def add_assets(server, file, prefix=None):
             bundles[name].contents = \
                 tuple(map(lambda s: prefix + '/' + s, bundles[name].contents))
         # Register bundle with the webassets environment
-        server.jinja_env.assets_environment.register(name, bundles[name])
+        get_assets(server).register(name, bundles[name])

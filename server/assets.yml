@@ -8,4 +8,5 @@ js-base:
   filters: rjsmin
   output: js/js-base.min.js
   contents:
+    - js/socket.io-4.5.1.js
     - js/base.js
